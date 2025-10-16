@@ -378,21 +378,24 @@ public class LoginView extends Application {
         espera.play();
     }
 
-    private void abrirTelaCorrespondente(Stage stage, Usuario user) {
-        try {
-            if (user.getEmail().equalsIgnoreCase(".admin@gmail.com")) {
-                new DashboardAdminView().start(new Stage());
-            } else if (user.getEmail().endsWith(".staff@gmail.com")) {
-                new DashboardFuncionarioView().start(new Stage());
-            } else if (user.getEmail().endsWith("@gmail.com")) {
-                boolean abrirCadastro = (user.toCliente() == null);
-                new ClienteView(user, abrirCadastro).start(new Stage());
-            }
-            stage.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+  private void abrirTelaCorrespondente(Stage stage, Usuario user) {
+    try {
+        String email = user.getEmail().toLowerCase().trim();
+
+        if (email.endsWith(".admin@gmail.com")) {
+            new DashboardAdminView().start(new Stage());
+        } else if (email.endsWith(".staff@gmail.com")) {
+            new DashboardFuncionarioView().start(new Stage());
+        } else if (email.endsWith("@gmail.com")) {
+            boolean abrirCadastro = (user.toCliente() == null);
+            new ClienteView(user, abrirCadastro).start(new Stage());
         }
+
+        stage.close();
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+}
 
     private void mostrarRegistro() {
         trocarFundo("6.jpg");
